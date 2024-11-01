@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ShopMVC.DTOs.CategoryDto>
+
+@{
+    ViewData["Title"] = "Categories Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-4">Categories</h1>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a asp-action="Create" class="btn btn-primary">Create New Category</a>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.First().CategoryId)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Name)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Description)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-warning btn-sm">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-info btn-sm">Details</a>
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-@item.CategoryId">
+                                        Delete
+                                    </button>
+
+                                  
+                                    <div class="modal fade" id="deleteModal-@item.CategoryId" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-@item.CategoryId" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel-@item.CategoryId">Confirm Delete</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete the category "@item.Name"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    No categories available. Click the button above to create a new category.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLR4l5FbL8T5lPbBgVrA6gjD9D5sy5F2GJhgJp6jx5" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+}
